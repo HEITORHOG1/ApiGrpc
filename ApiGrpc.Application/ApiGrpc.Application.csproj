@@ -16,11 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Behaviors\" />
     <Folder Include="EventHandlers\" />
     <Folder Include="GrpcContracts\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="Validations\" />
   </ItemGroup>
 
   <ItemGroup>

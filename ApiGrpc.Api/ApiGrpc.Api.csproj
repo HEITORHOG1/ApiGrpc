@@ -7,9 +7,11 @@
 		<UserSecretsId>4e475594-e5a6-4c05-b696-90a6007171eb</UserSecretsId>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<NoWarn>$(NoWarn);1591</NoWarn>
+		<DocumentationFile></DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
 		<PackageReference Include="Grpc.AspNetCore" Version="2.67.0" />
 		<PackageReference Include="Grpc.AspNetCore.Web" Version="2.67.0" />
 		<PackageReference Include="MediatR" Version="12.4.1" />
@@ -26,13 +28,11 @@
 		</PackageReference>
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Grpc.Swagger" Version="0.8.0" />
+		
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Controllers\" />
 		<Folder Include="Filters\" />
-		<Folder Include="Middlewares\" />
-		<Folder Include="Swagger\" />
 	</ItemGroup>
 
 	<ItemGroup>
