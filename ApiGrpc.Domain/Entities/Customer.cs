@@ -1,9 +1,4 @@
 ﻿using ApiGrpc.Domain.Entities.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ApiGrpc.Domain.Entities
 {
@@ -14,7 +9,8 @@ namespace ApiGrpc.Domain.Entities
         public string Phone { get; private set; }
         public bool Active { get; private set; }
 
-        protected Customer() { } // EF Constructor
+        protected Customer()
+        { } // EF Constructor
 
         public Customer(string name, string email, string phone)
         {

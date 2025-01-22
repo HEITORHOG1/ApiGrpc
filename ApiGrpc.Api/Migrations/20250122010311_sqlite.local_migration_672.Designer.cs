@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ApiGrpc.Api.Migrations
 {
-    [DbContext(typeof(CustomerDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20250122010311_sqlite.local_migration_672")]
     partial class sqlitelocal_migration_672
     {

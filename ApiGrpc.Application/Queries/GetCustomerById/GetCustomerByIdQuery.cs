@@ -1,4 +1,4 @@
-﻿using ApiGrpc.Application.DTOs;
+﻿using ApiGrpc.Application.DTOs.Customer;
 using ApiGrpc.Domain.Exceptions;
 using ApiGrpc.Domain.Repositories;
 using AutoMapper;

@@ -7,9 +7,9 @@ namespace ApiGrpc.Infrastructure.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {
-        private readonly CustomerDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public CustomerRepository(CustomerDbContext context)
+        public CustomerRepository(ApplicationDbContext context)
         {
             _context = context;
         }

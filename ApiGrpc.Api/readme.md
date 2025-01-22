@@ -99,6 +99,62 @@ dotnet run --project ProductService.Api
 
 ### REST
 - GET /api/customers
+  - Descrição: Obtém todos os clientes.
+  - Respostas:
+    - 200: Retorna uma lista de `CustomerDto`.
+    - 401: Não autorizado.
+
 - GET /api/customers/{id}
+  - Descrição: Obtém um cliente pelo ID.
+  - Parâmetros:
+    - `id` (Guid): ID do cliente.
+  - Respostas:
+    - 200: Retorna um `CustomerDto`.
+    - 404: Cliente não encontrado.
+    - 401: Não autorizado.
+
 - POST /api/customers
+  - Descrição: Cria um novo cliente.
+  - Corpo da Requisição: `CreateCustomerDto`
+  - Respostas:
+    - 201: Cliente criado com sucesso.
+    - 400: Requisição inválida.
+    - 401: Não autorizado.
+
 - PUT /api/customers/{id}
+  - Descrição: Atualiza um cliente existente.
+  - Parâmetros:
+    - `id` (Guid): ID do cliente.
+  - Corpo da Requisição: `UpdateCustomerDto`
+  - Respostas:
+    - 204: Cliente atualizado com sucesso.
+    - 400: Requisição inválida.
+    - 404: Cliente não encontrado.
+    - 401: Não autorizado.
+
+- POST /api/auth/register
+  - Descrição: Registra um novo usuário.
+  - Corpo da Requisição: `RegisterDto`
+  - Respostas:
+    - 201: Usuário registrado com sucesso.
+    - 400: Requisição inválida.
+
+- POST /api/auth/login
+  - Descrição: Realiza login de um usuário.
+  - Corpo da Requisição: `LoginDto`
+  - Respostas:
+    - 200: Retorna um token de autenticação.
+    - 400: Requisição inválida.
+
+- POST /api/auth/refresh
+  - Descrição: Atualiza o token de autenticação.
+  - Corpo da Requisição: `RefreshTokenDto`
+  - Respostas:
+    - 200: Retorna um novo token de autenticação.
+    - 400: Requisição inválida.
+
+- GET /api/auth/users
+  - Descrição: Obtém todos os usuários.
+  - Respostas:
+    - 200: Retorna uma lista de `UserDto`.
+    - 401: Não autorizado.

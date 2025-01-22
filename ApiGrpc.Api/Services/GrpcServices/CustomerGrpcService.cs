@@ -1,6 +1,6 @@
 ﻿using ApiGrpc.Application.Commands.AddCustomer;
 using ApiGrpc.Application.Commands.UpdateCustomer;
-using ApiGrpc.Application.DTOs;
+using ApiGrpc.Application.DTOs.Customer;
 using ApiGrpc.Application.Queries.GetAllCustomers;
 using ApiGrpc.Application.Queries.GetCustomerById;
 using CustomerService.Api;

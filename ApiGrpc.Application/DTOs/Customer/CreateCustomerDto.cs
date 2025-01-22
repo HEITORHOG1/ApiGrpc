@@ -1,4 +1,4 @@
-﻿namespace ApiGrpc.Application.DTOs
+﻿namespace ApiGrpc.Application.DTOs.Customer
 {
     public record CreateCustomerDto(
      string Name,
