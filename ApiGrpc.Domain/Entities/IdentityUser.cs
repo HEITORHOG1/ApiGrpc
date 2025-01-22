@@ -8,7 +8,7 @@ namespace ApiGrpc.Domain.Entities
         public string LastName { get; set; } = null!;
         public DateTime CreatedAt { get; set; }
 
-        protected ApplicationUser()
+        public ApplicationUser()
         { } // EF Core
 
         public ApplicationUser(string email, string firstName, string lastName)
@@ -18,6 +18,11 @@ namespace ApiGrpc.Domain.Entities
             FirstName = firstName;
             LastName = lastName;
             CreatedAt = DateTime.UtcNow;
+        }
+
+        public async Task<bool> IsInRoleAsync(UserManager<ApplicationUser> userManager, string role)
+        {
+            return await userManager.IsInRoleAsync(this, role);
         }
     }
 }

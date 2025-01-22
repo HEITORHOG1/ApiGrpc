@@ -8,17 +8,19 @@ using Microsoft.Extensions.Configuration;
 
 namespace ApiGrpc.Application.Commands.Auth
 {
-    public record RegisterCommand(string Email, string Password, string FirstName, string LastName) : IRequest<AuthResponseDto>;
+    public record RegisterCommand(string Email, string Password, string FirstName, string LastName, string Role) : IRequest<AuthResponseDto>;
 
     public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AuthResponseDto>
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly TokenService _tokenService;
 
-        public RegisterCommandHandler(UserManager<ApplicationUser> userManager, IConfiguration configuration, TokenService tokenService)
+        public RegisterCommandHandler(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, TokenService tokenService)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _configuration = configuration;
             _tokenService = tokenService;
         }
@@ -34,8 +36,15 @@ namespace ApiGrpc.Application.Commands.Auth
             if (!result.Succeeded)
                 throw new DomainException(result.Errors.First().Description);
 
-            var (accessToken, refreshToken) = _tokenService.GenerateJwtToken(user);
-            return new AuthResponseDto(accessToken, refreshToken, user.Email, user.FirstName, user.LastName);
+            // Verificar se o role existeLoginCommandHandler
+            if (!await _roleManager.RoleExistsAsync(request.Role))
+                throw new DomainException("Role não existe");
+
+            // Atribuir role ao usuário
+            await _userManager.AddToRoleAsync(user, request.Role);
+
+            var (accessToken, refreshToken) = await _tokenService.GenerateJwtToken(user);
+            return new AuthResponseDto(accessToken, refreshToken, user.Email, user.FirstName, user.LastName, request.Role);
         }
     }
 }

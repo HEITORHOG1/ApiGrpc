@@ -36,8 +36,11 @@ namespace ApiGrpc.Application.Commands.Auth
             var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
             if (!result.Succeeded) throw new UnauthorizedAccessException("Credenciais inválidas");
 
-            var (accessToken, refreshToken) = _tokenService.GenerateJwtToken(user);
-            return new AuthResponseDto(accessToken, refreshToken, user.Email, user.FirstName, user.LastName);
+            var (accessToken, refreshToken) = await _tokenService.GenerateJwtToken(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            var role = roles.FirstOrDefault() ?? "Cliente"; // Assume "Cliente" como padrão se não houver role
+
+            return new AuthResponseDto(accessToken, refreshToken, user.Email, user.FirstName, user.LastName, role);
         }
     }
 }

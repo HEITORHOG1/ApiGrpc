@@ -24,7 +24,7 @@ namespace ApiGrpc.Api.EndPoints
             .Produces(StatusCodes.Status401Unauthorized)
             .WithName("GetAllCustomers")
             .WithTags("Customers")
-            .RequireAuthorization();
+            .RequireAuthorization(policy => policy.RequireRole("Admin", "Cliente", "Gerente"));
 
             app.MapGet("/api/customers/{id}", async (Guid id, IMediator mediator) =>
             {
@@ -36,7 +36,7 @@ namespace ApiGrpc.Api.EndPoints
             .Produces(StatusCodes.Status401Unauthorized)
             .WithName("GetCustomerById")
             .WithTags("Customers")
-            .RequireAuthorization();
+           .RequireAuthorization(policy => policy.RequireRole("Admin", "Cliente", "Gerente"));
 
             app.MapPost("/api/customers", async (CreateCustomerDto dto, IMediator mediator) =>
             {
@@ -48,7 +48,7 @@ namespace ApiGrpc.Api.EndPoints
             .Produces(StatusCodes.Status401Unauthorized)
             .WithName("AddCustomer")
             .WithTags("Customers")
-            .RequireAuthorization();
+            .RequireAuthorization(policy => policy.RequireRole("Admin", "Cliente", "Gerente"));
 
             app.MapPut("/api/customers/{id}", async (Guid id, UpdateCustomerDto dto, IMediator mediator) =>
             {
@@ -61,7 +61,7 @@ namespace ApiGrpc.Api.EndPoints
             .Produces(StatusCodes.Status401Unauthorized)
             .WithName("UpdateCustomer")
             .WithTags("Customers")
-            .RequireAuthorization();
+           .RequireAuthorization(policy => policy.RequireRole("Admin", "Cliente", "Gerente"));
 
             return app;
         }

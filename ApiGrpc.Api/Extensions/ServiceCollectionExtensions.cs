@@ -8,6 +8,7 @@ using ApiGrpc.Infrastructure.Repositories;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
 namespace ApiGrpc.Api.Extensions
 {
     public static class ServiceCollectionExtensions

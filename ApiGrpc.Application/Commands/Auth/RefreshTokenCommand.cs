@@ -14,6 +14,12 @@ namespace ApiGrpc.Application.Commands.Auth
         private readonly TokenService _tokenService;
         private readonly UserManager<ApplicationUser> _userManager;
 
+        public RefreshTokenCommandHandler(TokenService tokenService, UserManager<ApplicationUser> userManager)
+        {
+            _tokenService = tokenService;
+            _userManager = userManager;
+        }
+
         public async Task<AuthResponseDto> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {
             var principal = _tokenService.ValidateRefreshToken(request.RefreshToken);
@@ -21,9 +27,11 @@ namespace ApiGrpc.Application.Commands.Auth
 
             if (user == null) throw new UnauthorizedAccessException("Token inválido");
 
-            var (accessToken, refreshToken) = _tokenService.GenerateTokens(user);
+            var (accessToken, refreshToken) = await _tokenService.GenerateJwtToken(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            var role = roles.FirstOrDefault() ?? "Cliente";
 
-            return new AuthResponseDto(accessToken, refreshToken, user.Email, user.FirstName, user.LastName);
+            return new AuthResponseDto(accessToken, refreshToken, user.Email, user.FirstName, user.LastName, role);
         }
     }
 }

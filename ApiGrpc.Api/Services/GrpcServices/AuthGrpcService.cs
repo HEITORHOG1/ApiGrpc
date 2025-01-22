@@ -23,7 +23,8 @@ namespace ApiGrpc.Api.Services.GrpcServices
                 Token = result.Token,
                 Email = result.Email,
                 FirstName = result.FirstName,
-                LastName = result.LastName
+                LastName = result.LastName,
+                Role = result.Role
             };
         }
 
@@ -33,7 +34,8 @@ namespace ApiGrpc.Api.Services.GrpcServices
                 request.Email,
                 request.Password,
                 request.FirstName,
-                request.LastName);
+                request.LastName,
+                request.Role);
 
             var result = await _mediator.Send(command);
 
@@ -42,7 +44,8 @@ namespace ApiGrpc.Api.Services.GrpcServices
                 Token = result.Token,
                 Email = result.Email,
                 FirstName = result.FirstName,
-                LastName = result.LastName
+                LastName = result.LastName,
+                Role = result.Role
             };
         }
     }
