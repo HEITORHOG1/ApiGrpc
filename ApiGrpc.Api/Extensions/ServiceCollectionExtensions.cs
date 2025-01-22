@@ -5,9 +5,9 @@ using ApiGrpc.Application.Validations.Auth;
 using ApiGrpc.Domain.Repositories;
 using ApiGrpc.Infrastructure.Context;
 using ApiGrpc.Infrastructure.Repositories;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using FluentValidation;
 namespace ApiGrpc.Api.Extensions
 {
     public static class ServiceCollectionExtensions
