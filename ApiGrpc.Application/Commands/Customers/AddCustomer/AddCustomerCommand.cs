@@ -5,7 +5,7 @@ using ApiGrpc.Domain.Repositories;
 using AutoMapper;
 using MediatR;
 
-namespace ApiGrpc.Application.Commands.AddCustomer
+namespace ApiGrpc.Application.Commands.Customers.AddCustomer
 {
     public record AddCustomerCommand(string Name, string Email, string Phone) : IRequest<CustomerDto>;
 

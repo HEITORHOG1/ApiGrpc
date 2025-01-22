@@ -4,7 +4,7 @@ using ApiGrpc.Domain.Repositories;
 using AutoMapper;
 using MediatR;
 
-namespace ApiGrpc.Application.Commands.UpdateCustomer
+namespace ApiGrpc.Application.Commands.Customers.UpdateCustomer
 {
     public record UpdateCustomerCommand(Guid Id, string Name, string Email, string Phone) : IRequest<CustomerDto>;
 

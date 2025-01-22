@@ -4,7 +4,7 @@ using ApiGrpc.Domain.Repositories;
 using AutoMapper;
 using MediatR;
 
-namespace ApiGrpc.Application.Queries.GetCustomerById
+namespace ApiGrpc.Application.Queries.Customers.GetCustomerById
 {
     public record GetCustomerByIdQuery(Guid Id) : IRequest<CustomerDto>;
 

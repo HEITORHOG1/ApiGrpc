@@ -1,9 +1,9 @@
 ﻿using ApiGrpc.Api.Services.GrpcServices;
-using ApiGrpc.Application.Commands.AddCustomer;
-using ApiGrpc.Application.Commands.UpdateCustomer;
+using ApiGrpc.Application.Commands.Customers.AddCustomer;
+using ApiGrpc.Application.Commands.Customers.UpdateCustomer;
 using ApiGrpc.Application.DTOs.Customer;
-using ApiGrpc.Application.Queries.GetAllCustomers;
-using ApiGrpc.Application.Queries.GetCustomerById;
+using ApiGrpc.Application.Queries.Customers.GetAllCustomers;
+using ApiGrpc.Application.Queries.Customers.GetCustomerById;
 using MediatR;
 
 namespace ApiGrpc.Api.EndPoints

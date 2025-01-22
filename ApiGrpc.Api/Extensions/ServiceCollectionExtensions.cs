@@ -1,5 +1,5 @@
 ﻿using ApiGrpc.Application.Behaviors;
-using ApiGrpc.Application.Commands.AddCustomer;
+using ApiGrpc.Application.Commands.Customers.AddCustomer;
 using ApiGrpc.Application.Mappings;
 using ApiGrpc.Application.Validations.Auth;
 using ApiGrpc.Domain.Repositories;
@@ -22,6 +22,7 @@ namespace ApiGrpc.Api.Extensions
 
             services.AddValidatorsFromAssembly(typeof(LoginCommandValidator).Assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
             return services;
         }
 

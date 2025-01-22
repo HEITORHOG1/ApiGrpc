@@ -3,7 +3,7 @@ using ApiGrpc.Domain.Repositories;
 using AutoMapper;
 using MediatR;
 
-namespace ApiGrpc.Application.Queries.GetAllCustomers
+namespace ApiGrpc.Application.Queries.Customers.GetAllCustomers
 {
     public record GetAllCustomersQuery : IRequest<IEnumerable<CustomerDto>>;
 
