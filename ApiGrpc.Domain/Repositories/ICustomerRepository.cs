@@ -1,21 +1,12 @@
 ﻿using ApiGrpc.Domain.Entities;
+using ApiGrpc.Domain.Repositories.Base;
 
 namespace ApiGrpc.Domain.Repositories
 {
-    public interface ICustomerRepository
+    public interface ICustomerRepository : IRepository<Customer>
     {
-        Task<Customer> GetByIdAsync(Guid id);
-
-        Task<Customer> GetByEmailAsync(string email);
-
-        Task<IEnumerable<Customer>> GetAllAsync();
-
-        Task<Customer> AddAsync(Customer customer);
-
-        Task UpdateAsync(Customer customer);
-
-        Task DeleteAsync(Customer customer);
-
+        Task<IEnumerable<Customer>> GetAllAsync(int pageNumber = 1, int pageSize = 10);
+        Task<Customer?> GetByEmailAsync(string email);
         Task<bool> EmailExistsAsync(string email);
     }
 }

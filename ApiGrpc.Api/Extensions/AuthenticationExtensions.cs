@@ -1,4 +1,8 @@
-﻿using ApiGrpc.Infrastructure.Services;
+﻿using ApiGrpc.Domain.Repositories;
+using ApiGrpc.Domain.Repositories.Base;
+using ApiGrpc.Infrastructure.Repositories;
+using ApiGrpc.Infrastructure.Repositories.Base;
+using ApiGrpc.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -22,7 +26,8 @@ namespace ApiGrpc.Api.Extensions
             };
             services.AddSingleton(tokenValidationParameters);
 
-            services.AddScoped<TokenService>();
+            
+
 
             services.AddAuthentication(options =>
             {

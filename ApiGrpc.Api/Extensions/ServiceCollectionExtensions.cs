@@ -3,8 +3,11 @@ using ApiGrpc.Application.Commands.Customers.AddCustomer;
 using ApiGrpc.Application.Mappings;
 using ApiGrpc.Application.Validations.Auth;
 using ApiGrpc.Domain.Repositories;
+using ApiGrpc.Domain.Repositories.Base;
 using ApiGrpc.Infrastructure.Context;
 using ApiGrpc.Infrastructure.Repositories;
+using ApiGrpc.Infrastructure.Repositories.Base;
+using ApiGrpc.Infrastructure.Services;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -20,10 +23,21 @@ namespace ApiGrpc.Api.Extensions
 
             services.AddAutoMapper(typeof(MappingProfile));
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<TokenService>();
+
+            // Registro dos Repositórios
+            services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddValidatorsFromAssembly(typeof(LoginCommandValidator).Assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
+            services.AddDistributedMemoryCache();
+
+            // Registre o CacheService:
+            services.AddScoped<CacheService>();
+
+            services.AddMemoryCache();
             return services;
         }
 
