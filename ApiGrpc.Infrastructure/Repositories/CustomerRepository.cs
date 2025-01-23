@@ -3,7 +3,6 @@ using ApiGrpc.Domain.Repositories;
 using ApiGrpc.Infrastructure.Context;
 using ApiGrpc.Infrastructure.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace ApiGrpc.Infrastructure.Repositories
 {

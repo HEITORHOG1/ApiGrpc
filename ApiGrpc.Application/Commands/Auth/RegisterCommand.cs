@@ -6,7 +6,6 @@ using ApiGrpc.Infrastructure.Services;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace ApiGrpc.Application.Commands.Auth

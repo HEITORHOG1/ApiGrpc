@@ -1,9 +1,4 @@
-﻿using ApiGrpc.Domain.Repositories;
-using ApiGrpc.Domain.Repositories.Base;
-using ApiGrpc.Infrastructure.Repositories;
-using ApiGrpc.Infrastructure.Repositories.Base;
-using ApiGrpc.Infrastructure.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -25,9 +20,6 @@ namespace ApiGrpc.Api.Extensions
                     Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
             };
             services.AddSingleton(tokenValidationParameters);
-
-            
-
 
             services.AddAuthentication(options =>
             {
