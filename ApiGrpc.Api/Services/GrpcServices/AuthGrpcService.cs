@@ -20,7 +20,7 @@ namespace ApiGrpc.Api.Services.GrpcServices
 
             return new AuthResponse
             {
-                Token = result.Token,
+                Token = result.AccessToken,
                 Email = result.Email,
                 FirstName = result.FirstName,
                 LastName = result.LastName,
@@ -41,7 +41,7 @@ namespace ApiGrpc.Api.Services.GrpcServices
 
             return new AuthResponse
             {
-                Token = result.Token,
+                Token = result.AccessToken,
                 Email = result.Email,
                 FirstName = result.FirstName,
                 LastName = result.LastName,

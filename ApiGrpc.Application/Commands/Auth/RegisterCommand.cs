@@ -7,47 +7,92 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace ApiGrpc.Application.Commands.Auth
 {
-    public record RegisterCommand(string Email, string Password, string FirstName, string LastName, string Role) : IRequest<AuthResponseDto>;
+    public record RegisterCommand(
+         string Email,
+         string Password,
+         string FirstName,
+         string LastName,
+         string Role
+     ) : IRequest<AuthResponseDto>;
 
     public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AuthResponseDto>
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IConfiguration _configuration;
         private readonly TokenService _tokenService;
-        private readonly RegisterCommandValidator _validationRules;
+        private readonly ILogger<RegisterCommandHandler> _logger;
+        private readonly RegisterCommandValidator _validator;
 
-        public RegisterCommandHandler(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, TokenService tokenService, RegisterCommandValidator validationRules)
+        public RegisterCommandHandler(
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            TokenService tokenService,
+            ILogger<RegisterCommandHandler> logger,
+            RegisterCommandValidator validator)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _configuration = configuration;
             _tokenService = tokenService;
-            _validationRules = validationRules;
+            _logger = logger;
+            _validator = validator;
         }
 
         public async Task<AuthResponseDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            await _validationRules.ValidateAndThrowAsync(request, cancellationToken);
-            if (await _userManager.FindByEmailAsync(request.Email) != null)
-                throw new DomainException("Email já registrado");
+            // 1. Validação dos dados de entrada
+            await _validator.ValidateAndThrowAsync(request, cancellationToken);
 
+            // 2. Verificar e-mail único
+            var existingUser = await _userManager.FindByEmailAsync(request.Email);
+            if (existingUser != null)
+            {
+                _logger.LogWarning("Tentativa de registro com e-mail já existente: {Email}", request.Email);
+                throw new ConflictException("Este e-mail já está cadastrado");
+            }
+
+            // 3. Criar novo usuário
             var user = new ApplicationUser(request.Email, request.FirstName, request.LastName);
-            var result = await _userManager.CreateAsync(user, request.Password);
+            var createResult = await _userManager.CreateAsync(user, request.Password);
 
-            if (!result.Succeeded)
-                throw new DomainException(result.Errors.First().Description);
+            if (!createResult.Succeeded)
+            {
+                var errors = string.Join(", ", createResult.Errors.Select(e => e.Description));
+                _logger.LogError("Falha ao criar usuário: {Errors}", errors);
+                throw new ValidationException($"Falha no registro: {errors}");
+            }
 
+            // 4. Verificar e atribuir role
             if (!await _roleManager.RoleExistsAsync(request.Role))
-                throw new DomainException("Role não existe");
+            {
+                _logger.LogError("Tentativa de atribuir role inexistente: {Role}", request.Role);
+                throw new NotFoundException("Perfil de acesso não encontrado");
+            }
 
-            await _userManager.AddToRoleAsync(user, request.Role);
+            var roleResult = await _userManager.AddToRoleAsync(user, request.Role);
+            if (!roleResult.Succeeded)
+            {
+                var errors = string.Join(", ", roleResult.Errors.Select(e => e.Description));
+                _logger.LogError("Falha ao atribuir role: {Errors}", errors);
+                throw new ApplicationException("Falha ao configurar perfil de acesso");
+            }
 
-            var (accessToken, refreshToken) = await _tokenService.GenerateJwtToken(user);
-            return new AuthResponseDto(accessToken, refreshToken, user.Email, user.FirstName, user.LastName, request.Role);
+            // 5. Gerar tokens
+            var tokens = await _tokenService.GenerateJwtToken(user);
+
+            _logger.LogInformation("Novo usuário registrado com sucesso: {Email}", request.Email);
+
+            return new AuthResponseDto(
+                tokens.accessToken,
+                tokens.refreshToken,
+                user.Email,
+                user.FirstName,
+                user.LastName,
+                request.Role,
+                user.Id);
         }
     }
 }

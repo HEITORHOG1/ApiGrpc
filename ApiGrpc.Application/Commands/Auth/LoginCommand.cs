@@ -18,11 +18,12 @@ namespace ApiGrpc.Application.Commands.Auth
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IConfiguration _configuration;
         private readonly TokenService _tokenService;
-        private readonly  LoginCommandValidator _validationRules;
+        private readonly LoginCommandValidator _validationRules;
+
         public LoginCommandHandler(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IConfiguration configuration, 
+            IConfiguration configuration,
             TokenService tokenService, LoginCommandValidator validationRules)
         {
             _userManager = userManager;
@@ -45,7 +46,7 @@ namespace ApiGrpc.Application.Commands.Auth
             var roles = await _userManager.GetRolesAsync(user);
             var role = roles.FirstOrDefault() ?? "Cliente"; // Assume "Cliente" como padrão se não houver role
 
-            return new AuthResponseDto(accessToken, refreshToken, user.Email, user.FirstName, user.LastName, role);
+            return new AuthResponseDto(accessToken, refreshToken, user.Email, user.FirstName, user.LastName, role, user.Id);
         }
     }
 }

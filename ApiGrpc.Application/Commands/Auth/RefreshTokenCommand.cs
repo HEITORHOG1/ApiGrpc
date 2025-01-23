@@ -31,7 +31,7 @@ namespace ApiGrpc.Application.Commands.Auth
             var roles = await _userManager.GetRolesAsync(user);
             var role = roles.FirstOrDefault() ?? "Cliente";
 
-            return new AuthResponseDto(accessToken, refreshToken, user.Email, user.FirstName, user.LastName, role);
+            return new AuthResponseDto(accessToken, refreshToken, user.Email, user.FirstName, user.LastName, role, user.Id);
         }
     }
 }
