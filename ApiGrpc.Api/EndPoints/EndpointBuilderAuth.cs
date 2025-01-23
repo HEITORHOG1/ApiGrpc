@@ -79,7 +79,7 @@ namespace ApiGrpc.Api.EndPoints
             .Produces(StatusCodes.Status401Unauthorized)
             .WithName("GetAllUsers")
             .WithTags("Auth")
-            .RequireAuthorization(policy => policy.RequireRole("Admin", "Cliente", "Gerente"));
+            .RequireAuthorization(policy => policy.RequireRole("Admin", "Gerente"));
 
             app.MapGet("/api/auth/roles", async (RoleManager<IdentityRole> roleManager) =>
             {
@@ -127,7 +127,7 @@ namespace ApiGrpc.Api.EndPoints
             .Produces(StatusCodes.Status404NotFound)
             .WithName("UpdateUser")
             .WithTags("Auth")
-            .RequireAuthorization(policy => policy.RequireRole("Admin", "Cliente", "Gerente"));
+            .RequireAuthorization(policy => policy.RequireRole("Admin", "Gerente"));
 
             return app;
         }
