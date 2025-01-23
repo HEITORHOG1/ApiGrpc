@@ -13,7 +13,6 @@ namespace ApiGrpc.Api.EndPoints
         public static WebApplication MapEndpointsCustomer(this WebApplication app)
         {
             app.MapGrpcService<CustomerGrpcService>();
-            app.MapGet("/", () => Results.Redirect("/swagger"));
 
             app.MapGet("/api/customers", async (IMediator mediator) =>
             {

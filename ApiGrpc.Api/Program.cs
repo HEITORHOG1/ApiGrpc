@@ -48,6 +48,7 @@ app.MapGrpcService<AuthGrpcService>().EnableGrpcWeb().RequireAuthorization();
 app.MapGrpcService<CustomerGrpcService>().EnableGrpcWeb().RequireAuthorization();
 app.MapEndpointsCustomer();
 app.MapEndpointsLogin();
+app.MapEndpointsEndereco();
 app.UseMiddleware<ValidationExceptionMiddleware>();
 
 app.UseMiddleware<LoggingMiddleware>();

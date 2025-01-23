@@ -22,10 +22,14 @@ namespace ApiGrpc.Api.Extensions
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(AddCustomerCommand).Assembly));
 
             services.AddAutoMapper(typeof(MappingProfile));
-            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddAutoMapper(typeof(EnderecoProfile));
+
             services.AddScoped<TokenService>();
+            services.AddScoped<CacheService>();
 
             // Registro dos Repositórios
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IEnderecoRepository, EnderecoRepository>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -33,9 +37,6 @@ namespace ApiGrpc.Api.Extensions
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             services.AddDistributedMemoryCache();
-
-            // Registre o CacheService:
-            services.AddScoped<CacheService>();
 
             services.AddMemoryCache();
             return services;
