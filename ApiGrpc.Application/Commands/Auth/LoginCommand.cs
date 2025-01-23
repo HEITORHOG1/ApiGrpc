@@ -1,7 +1,9 @@
 ﻿using ApiGrpc.Application.DTOs.Login;
+using ApiGrpc.Application.Validations.Auth;
 using ApiGrpc.Domain.Entities;
 using ApiGrpc.Domain.Exceptions;
 using ApiGrpc.Infrastructure.Services;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -16,20 +18,23 @@ namespace ApiGrpc.Application.Commands.Auth
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IConfiguration _configuration;
         private readonly TokenService _tokenService;
-
+        private readonly  LoginCommandValidator _validationRules;
         public LoginCommandHandler(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IConfiguration configuration, TokenService tokenService)
+            IConfiguration configuration, 
+            TokenService tokenService, LoginCommandValidator validationRules)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
             _tokenService = tokenService;
+            _validationRules = validationRules;
         }
 
         public async Task<AuthResponseDto> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
+            await _validationRules.ValidateAndThrowAsync(request, cancellationToken);
             var user = await _userManager.FindByEmailAsync(request.Email);
             if (user == null) throw new NotFoundException("Usuário não encontrado");
 

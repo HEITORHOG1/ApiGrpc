@@ -42,8 +42,8 @@ namespace ApiGrpc.Infrastructure.Repositories.Base
 
         public async Task UpdateAsync(T entity)
         {
-            _dbSet.Update(entity); // Atualização síncrona, mas método é assíncrono
-            await Task.CompletedTask; // Simula operação assíncrona
+            _dbSet.Update(entity); 
+            await Task.CompletedTask;
         }
 
         public void Remove(T entity)
