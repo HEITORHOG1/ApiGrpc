@@ -46,9 +46,10 @@ namespace ApiGrpc.Infrastructure.Repositories.Base
             await Task.CompletedTask;
         }
 
-        public void Remove(T entity)
+        public async Task Remove(T entity)
         {
             _dbSet.Remove(entity);
+            await Task.CompletedTask;
         }
 
         public void RemoveRange(IEnumerable<T> entities)

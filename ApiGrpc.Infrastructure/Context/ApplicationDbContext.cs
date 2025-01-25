@@ -9,6 +9,9 @@ namespace ApiGrpc.Infrastructure.Context
     {
         public DbSet<Customer> Customers { get; set; } = null!;
         public DbSet<Endereco> Enderecos { get; set; } = null!;
+        public DbSet<Estabelecimento> Estabelecimentos { get; set; } = null!;
+        public DbSet<HorarioFuncionamento> HorariosFuncionamentos { get; set; } = null!;
+        public DbSet<Categoria> Categorias { get; set; } = null!;
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {

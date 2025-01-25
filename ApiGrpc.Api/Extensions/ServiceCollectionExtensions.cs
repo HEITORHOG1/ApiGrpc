@@ -23,6 +23,9 @@ namespace ApiGrpc.Api.Extensions
 
             services.AddAutoMapper(typeof(MappingProfile));
             services.AddAutoMapper(typeof(EnderecoProfile));
+            services.AddAutoMapper(typeof(EstabelecimentoProfile));
+            services.AddAutoMapper(typeof(CategoriaProfile));
+
 
             services.AddScoped<TokenService>();
             services.AddScoped<CacheService>();
@@ -30,6 +33,9 @@ namespace ApiGrpc.Api.Extensions
             // Registro dos Repositórios
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IEnderecoRepository, EnderecoRepository>();
+            services.AddScoped<IEstabelecimentoRepository, EstabelecimentoRepository>();
+            services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

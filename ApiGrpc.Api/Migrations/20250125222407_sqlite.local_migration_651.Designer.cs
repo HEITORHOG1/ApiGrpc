@@ -3,6 +3,7 @@ using System;
 using ApiGrpc.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiGrpc.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class CustomerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250125222407_sqlite.local_migration_651")]
+    partial class sqlitelocal_migration_651
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
@@ -105,6 +108,9 @@ namespace ApiGrpc.Api.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("EstabelecimentoId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -167,6 +173,9 @@ namespace ApiGrpc.Api.Migrations
                     b.Property<Guid>("CategoriaId")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("CategoriaId1")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
@@ -222,7 +231,7 @@ namespace ApiGrpc.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoriaId");
+                    b.HasIndex("CategoriaId1");
 
                     b.HasIndex("EnderecoId");
 
@@ -455,7 +464,7 @@ namespace ApiGrpc.Api.Migrations
                 {
                     b.HasOne("ApiGrpc.Domain.Entities.Categoria", "Categoria")
                         .WithMany()
-                        .HasForeignKey("CategoriaId")
+                        .HasForeignKey("CategoriaId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

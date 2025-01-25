@@ -1,0 +1,98 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "ApiGrpc.Api.Services.GrpcServices";
+
+
+package estabelecimento;
+
+// Serviço para gerenciar estabelecimentos
+service EstabelecimentoGrpc {
+    // Cria um novo estabelecimento
+    rpc CreateEstabelecimento(CreateEstabelecimentoRequest) returns (EstabelecimentoResponse);
+
+    // Atualiza um estabelecimento existente
+    rpc UpdateEstabelecimento(UpdateEstabelecimentoRequest) returns (EstabelecimentoResponse);
+
+    // Obtém um estabelecimento pelo ID
+    rpc GetEstabelecimento(GetEstabelecimentoRequest) returns (EstabelecimentoResponse);
+
+    // Obtém todos os estabelecimentos de um usuário
+    rpc GetEstabelecimentosByUsuario(GetEstabelecimentosByUsuarioRequest) returns (EstabelecimentoListResponse);
+
+}
+
+// Mensagem para criar um estabelecimento
+message CreateEstabelecimentoRequest {
+    string razao_social = 1; // Razão social do estabelecimento (obrigatório)
+    string nome_fantasia = 2; // Nome fantasia do estabelecimento (obrigatório)
+    string cnpj = 3; // CNPJ do estabelecimento (14 dígitos, obrigatório)
+    string telefone = 4; // Telefone do estabelecimento (obrigatório)
+    string email = 5; // E-mail do estabelecimento (obrigatório)
+    string descricao = 6; // Descrição do estabelecimento (opcional)
+    string usuario_id = 7; // ID do usuário dono do estabelecimento (obrigatório)
+    string categoria_id = 8; // ID da categoria do estabelecimento (obrigatório)
+    string url_imagem = 9; // URL da imagem do estabelecimento (opcional)
+    string inscricao_estadual = 10; // Inscrição estadual (opcional)
+    string inscricao_municipal = 11; // Inscrição municipal (opcional)
+    string website = 12; // Website do estabelecimento (opcional)
+    string rede_social = 13; // Rede social do estabelecimento (opcional)
+}
+
+// Mensagem para atualizar um estabelecimento
+message UpdateEstabelecimentoRequest {
+    string id = 1; // ID do estabelecimento (obrigatório)
+    string razao_social = 2; // Razão social do estabelecimento (obrigatório)
+    string nome_fantasia = 3; // Nome fantasia do estabelecimento (obrigatório)
+    string cnpj = 4; // CNPJ do estabelecimento (14 dígitos, obrigatório)
+    string telefone = 5; // Telefone do estabelecimento (obrigatório)
+    string email = 6; // E-mail do estabelecimento (obrigatório)
+    string descricao = 7; // Descrição do estabelecimento (opcional)
+    string categoria_id = 8; // ID da categoria do estabelecimento (obrigatório)
+    string url_imagem = 9; // URL da imagem do estabelecimento (opcional)
+    string inscricao_estadual = 10; // Inscrição estadual (opcional)
+    string inscricao_municipal = 11; // Inscrição municipal (opcional)
+    string website = 12; // Website do estabelecimento (opcional)
+    string rede_social = 13; // Rede social do estabelecimento (opcional)
+}
+
+// Mensagem para obter um estabelecimento pelo ID
+message GetEstabelecimentoRequest {
+    string id = 1; // ID do estabelecimento (obrigatório)
+}
+
+// Mensagem para obter estabelecimentos de um usuário
+message GetEstabelecimentosByUsuarioRequest {
+    string usuario_id = 1; // ID do usuário (obrigatório)
+}
+
+// Mensagem para atualizar o status de um estabelecimento
+message UpdateEstabelecimentoStatusRequest {
+    string id = 1; // ID do estabelecimento (obrigatório)
+    bool status = 2; // Novo status do estabelecimento (obrigatório)
+}
+
+// Mensagem de resposta para um estabelecimento
+message EstabelecimentoResponse {
+    string id = 1; // ID do estabelecimento
+    string razao_social = 2; // Razão social do estabelecimento
+    string nome_fantasia = 3; // Nome fantasia do estabelecimento
+    string cnpj = 4; // CNPJ do estabelecimento
+    string telefone = 5; // Telefone do estabelecimento
+    string email = 6; // E-mail do estabelecimento
+    string descricao = 7; // Descrição do estabelecimento
+    string usuario_id = 8; // ID do usuário dono do estabelecimento
+    string categoria_id = 9; // ID da categoria do estabelecimento
+    string url_imagem = 10; // URL da imagem do estabelecimento
+    string inscricao_estadual = 11; // Inscrição estadual
+    string inscricao_municipal = 12; // Inscrição municipal
+    string website = 13; // Website do estabelecimento
+    string rede_social = 14; // Rede social do estabelecimento
+    bool status = 15; // Status do estabelecimento
+}
+
+// Mensagem de resposta para uma lista de estabelecimentos
+message EstabelecimentoListResponse {
+    repeated EstabelecimentoResponse estabelecimentos = 1; // Lista de estabelecimentos
+}
+
+

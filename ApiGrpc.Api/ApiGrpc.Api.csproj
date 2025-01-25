@@ -41,9 +41,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Protobuf Include="Protos\categoria.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\estabelecimento.proto" GrpcServices="Server" />
 		<Protobuf Include="Protos\endereco.proto" GrpcServices="Server" />
 		<Protobuf Include="Protos\auth.proto" GrpcServices="Server" />
-		<Protobuf Include="Protos\customer.proto" GrpcServices="Server" />
+	    <Protobuf Include="Protos\customer.proto" GrpcServices="Server" />
 	</ItemGroup>
 
 	<ItemGroup>
