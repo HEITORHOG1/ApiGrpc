@@ -34,6 +34,9 @@ namespace ApiGrpc.Infrastructure.Repositories
         {
             return await _context.Estabelecimentos
                 .Where(e => e.UsuarioId == usuarioId)
+                .Include(e => e.Endereco) // Adicionado
+                .Include(e => e.Categoria) // Adicionado
+                .Include(e => e.HorarioFuncionamento) // Adicionado
                 .ToListAsync();
         }
 

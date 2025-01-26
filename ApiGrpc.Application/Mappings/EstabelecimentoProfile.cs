@@ -10,10 +10,11 @@ namespace ApiGrpc.Application.Mappings
         public EstabelecimentoProfile()
         {
             CreateMap<AddEstabelecimentoCommand, Estabelecimento>()
-                .ForMember(dest => dest.HorarioFuncionamento, opt => opt.Ignore()) // Será criado separadamente
-                .ForMember(dest => dest.Endereco, opt => opt.Ignore()); // Será criado via command específico
+                .ForMember(dest => dest.HorarioFuncionamento, opt => opt.Ignore()); // Será criado separadamente
 
-            CreateMap<Estabelecimento, EstabelecimentoDto>().ReverseMap();
+            //CreateMap<Estabelecimento, EstabelecimentoDto>().ReverseMap();
+            CreateMap<Estabelecimento, EstabelecimentoDto>().
+                        ForMember(dest => dest.Endereco, opt => opt.MapFrom(src => src.Endereco));
         }
     }
 }

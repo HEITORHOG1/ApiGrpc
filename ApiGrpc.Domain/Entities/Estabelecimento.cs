@@ -18,8 +18,6 @@ namespace ApiGrpc.Domain.Entities
         public string? InscricaoMunicipal { get; private set; }
         public string? Website { get; private set; }
         public string? RedeSocial { get; private set; }
-        public Guid? HorarioFuncionamentoId { get; private set; }
-        public Guid? EnderecoId { get; private set; }
         public Guid CategoriaId { get; private set; }
         public virtual Categoria Categoria { get; private set; }
         public virtual Endereco Endereco { get; private set; }

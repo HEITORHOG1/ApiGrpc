@@ -1,4 +1,5 @@
-﻿using ApiGrpc.Application.DTOs.Category;
+﻿using ApiGrpc.Application.DTOs.Address;
+using ApiGrpc.Application.DTOs.Category;
 
 namespace ApiGrpc.Application.DTOs.Establishment
 {
@@ -18,6 +19,7 @@ namespace ApiGrpc.Application.DTOs.Establishment
         string? Website,
         string? RedeSocial,
         Guid? CategoriaId,
-        CategoriaDto Categoria
+        CategoriaDto Categoria,
+        EnderecoDto Endereco
     );
 }

@@ -103,6 +103,7 @@ namespace ApiGrpc.Api.Services.GrpcServices
                 RedeSocial = dto.RedeSocial ?? "",
                 Status = dto.Status
             };
+
         }
     }
 }
