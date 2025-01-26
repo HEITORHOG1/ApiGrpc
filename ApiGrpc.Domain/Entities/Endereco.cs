@@ -21,7 +21,8 @@ public class Endereco : Entity
     public double? RaioEntregaKm { get; private set; }
     public bool Status { get; private set; }
 
-    protected Endereco() { }
+    protected Endereco()
+    { }
 
     public Endereco(
         string logradouro,

@@ -7,7 +7,6 @@ namespace ApiGrpc.Application.Validations.Category
     {
         public AddCategoriaCommandValidator()
         {
-
             RuleFor(x => x.Nome)
                 .NotEmpty().WithMessage("Nome é obrigatório")
                 .MaximumLength(50).WithMessage("Nome deve ter até 50 caracteres");

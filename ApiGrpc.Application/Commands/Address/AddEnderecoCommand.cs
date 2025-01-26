@@ -15,7 +15,7 @@ namespace ApiGrpc.Application.Commands.Address
         string Estado,
         string Cep,
         bool IsEstabelecimento,
-        Guid? UsuarioId, 
+        Guid? UsuarioId,
         Guid? EstabelecimentoId,
         double Latitude,
         double Longitude,

@@ -7,7 +7,8 @@ namespace ApiGrpc.Domain.Entities
         public string Nome { get; private set; }
         public string Descricao { get; private set; }
 
-        protected Categoria() { }
+        protected Categoria()
+        { }
 
         public Categoria(string nome, string descricao)
         {

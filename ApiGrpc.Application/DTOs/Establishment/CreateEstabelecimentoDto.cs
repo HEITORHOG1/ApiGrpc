@@ -3,7 +3,7 @@
     public record CreateEstabelecimentoDto(
     string RazaoSocial,
     string NomeFantasia,
-    string CNPJ, 
+    string CNPJ,
     string Telefone,
     string Email,
     string Descricao,

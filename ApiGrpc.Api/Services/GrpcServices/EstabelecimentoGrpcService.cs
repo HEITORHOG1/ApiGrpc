@@ -80,9 +80,6 @@ namespace ApiGrpc.Api.Services.GrpcServices
             return response;
         }
 
-
-
-
         private static EstabelecimentoResponse MapToResponse(EstabelecimentoDto dto)
         {
             return new EstabelecimentoResponse
@@ -103,7 +100,6 @@ namespace ApiGrpc.Api.Services.GrpcServices
                 RedeSocial = dto.RedeSocial ?? "",
                 Status = dto.Status
             };
-
         }
     }
 }

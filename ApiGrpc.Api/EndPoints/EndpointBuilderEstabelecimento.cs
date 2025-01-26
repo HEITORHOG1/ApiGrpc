@@ -3,9 +3,6 @@ using ApiGrpc.Application.Commands.Establishment;
 using ApiGrpc.Application.DTOs.Establishment;
 using ApiGrpc.Application.Queries.Establishment;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Serilog;
-using System.Net.Http;
 using System.Security.Claims;
 
 namespace ApiGrpc.Api.EndPoints

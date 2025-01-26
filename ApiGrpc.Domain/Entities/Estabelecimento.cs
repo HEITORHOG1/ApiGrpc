@@ -7,6 +7,7 @@ namespace ApiGrpc.Domain.Entities
     {
         // Propriedades básicas
         public Guid UsuarioId { get; private set; }
+
         public string RazaoSocial { get; private set; }
         public string NomeFantasia { get; private set; }
         public string CNPJ { get; private set; }
@@ -108,6 +109,7 @@ namespace ApiGrpc.Domain.Entities
         {
             HorariosFuncionamento.Add(horario);
         }
+
         private static bool ValidarCNPJ(string cnpj)
         {
             cnpj = cnpj.Replace(".", "").Replace("-", "").Replace("/", "");

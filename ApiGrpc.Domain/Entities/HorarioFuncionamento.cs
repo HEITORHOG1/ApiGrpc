@@ -6,6 +6,7 @@ namespace ApiGrpc.Domain.Entities
     {
         // Propriedades
         public Guid EstabelecimentoId { get; private set; } // 👈 Tipo Guid
+
         public DayOfWeek DiaSemana { get; private set; }
         public TimeSpan HoraAbertura { get; private set; }
         public TimeSpan HoraFechamento { get; private set; }

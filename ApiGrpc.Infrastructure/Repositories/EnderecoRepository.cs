@@ -61,7 +61,6 @@ namespace ApiGrpc.Infrastructure.Repositories
 
         public async Task<IEnumerable<Endereco>> GetByEstabelecimentoAsync(Guid estabelecimentoId)
         {
-           
             return await _context.Enderecos
                 .Where(e => e.EstabelecimentoId == estabelecimentoId && e.Status)
                 .AsNoTracking()
@@ -70,7 +69,6 @@ namespace ApiGrpc.Infrastructure.Repositories
 
         public async Task<bool> ExisteEnderecoEstabelecimentoAsync(Guid estabelecimentoId)
         {
-
             return await _context.Enderecos
                 .AnyAsync(e => e.EstabelecimentoId == estabelecimentoId && e.Status);
         }

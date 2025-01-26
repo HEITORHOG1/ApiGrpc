@@ -73,7 +73,6 @@ namespace ApiGrpc.Api.EndPoints
             .WithName("DeleteCategoria")
             .WithTags("Categorias");
 
-
             return app;
         }
     }

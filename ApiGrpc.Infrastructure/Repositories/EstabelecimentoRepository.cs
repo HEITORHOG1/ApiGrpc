@@ -14,6 +14,7 @@ namespace ApiGrpc.Infrastructure.Repositories
         {
             _context = context;
         }
+
         public async Task<IEnumerable<Estabelecimento>> GetAll()
         {
             return await _context.Estabelecimentos
@@ -22,6 +23,7 @@ namespace ApiGrpc.Infrastructure.Repositories
                 .Include(e => e.Categoria)
                 .ToListAsync();
         }
+
         public async Task<Estabelecimento?> GetById(Guid id)
         {
             return await _context.Estabelecimentos
@@ -30,6 +32,7 @@ namespace ApiGrpc.Infrastructure.Repositories
                 .Include(e => e.Categoria)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
+
         public async Task<IEnumerable<Estabelecimento>> GetEstabelecimentosByUsuarioAsync(Guid usuarioId)
         {
             return await _context.Estabelecimentos
