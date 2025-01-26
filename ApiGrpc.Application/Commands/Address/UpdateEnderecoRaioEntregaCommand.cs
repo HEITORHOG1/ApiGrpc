@@ -21,7 +21,7 @@ namespace ApiGrpc.Application.Commands.Address
         public async Task Handle(UpdateEnderecoRaioEntregaCommand request, CancellationToken cancellationToken)
         {
             var endereco = await _repository.GetByIdAsync(request.Id)
-                ?? throw new NotFoundException("Endereço não encontrado");
+                ?? throw new NotFoundException($"Endereço {request.Id} não encontrado");
 
             endereco.UpdateRaioEntrega(request.RaioEntregaKm);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

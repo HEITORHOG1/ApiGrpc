@@ -10,6 +10,7 @@ namespace ApiGrpc.Api.Extensions
         {
             var tokenValidationParameters = new TokenValidationParameters
             {
+                NameClaimType = "sub",
                 ValidateIssuer = true,
                 ValidateAudience = true,
                 ValidateLifetime = true,

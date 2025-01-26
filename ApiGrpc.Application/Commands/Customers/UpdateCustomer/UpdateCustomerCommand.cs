@@ -1,4 +1,5 @@
 ﻿using ApiGrpc.Application.DTOs.Customer;
+using ApiGrpc.Application.Validations.Customers;
 using ApiGrpc.Domain.Exceptions;
 using ApiGrpc.Domain.Repositories;
 using ApiGrpc.Domain.Repositories.Base;

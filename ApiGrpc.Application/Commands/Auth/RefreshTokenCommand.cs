@@ -1,4 +1,4 @@
-﻿using ApiGrpc.Application.DTOs.Login;
+﻿using ApiGrpc.Application.DTOs.Auth;
 using ApiGrpc.Domain.Entities;
 using ApiGrpc.Infrastructure.Services;
 using MediatR;
@@ -31,7 +31,7 @@ namespace ApiGrpc.Application.Commands.Auth
             var roles = await _userManager.GetRolesAsync(user);
             var role = roles.FirstOrDefault() ?? "Cliente";
 
-            return new AuthResponseDto(accessToken, refreshToken, user.Email, user.FirstName, user.LastName, role, user.Id);
+            return new AuthResponseDto(accessToken, refreshToken, user.Email, user.FirstName, user.LastName, role, user.Id.ToString());
         }
     }
 }

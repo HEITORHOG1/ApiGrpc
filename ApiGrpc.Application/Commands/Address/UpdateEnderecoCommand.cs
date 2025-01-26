@@ -38,7 +38,7 @@ namespace ApiGrpc.Application.Commands.Address
         public async Task<EnderecoDto> Handle(UpdateEnderecoCommand request, CancellationToken cancellationToken)
         {
             var endereco = await _repository.GetByIdAsync(request.Id)
-                ?? throw new NotFoundException("Endereço não encontrado");
+                ?? throw new NotFoundException($"Endereço {request.Id} não encontrado");
 
             endereco.Update(
                 request.Logradouro,
@@ -52,7 +52,6 @@ namespace ApiGrpc.Application.Commands.Address
                 request.Longitude);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-
             return _mapper.Map<EnderecoDto>(endereco);
         }
     }

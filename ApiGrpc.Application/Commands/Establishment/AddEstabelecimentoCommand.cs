@@ -1,10 +1,10 @@
 ﻿using ApiGrpc.Application.DTOs.Establishment;
 using ApiGrpc.Domain.Entities;
-using ApiGrpc.Domain.Repositories.Base;
+using ApiGrpc.Domain.Exceptions;
 using ApiGrpc.Domain.Repositories;
+using ApiGrpc.Domain.Repositories.Base;
 using AutoMapper;
 using MediatR;
-using ApiGrpc.Domain.Exceptions;
 
 namespace ApiGrpc.Application.Commands.Establishment
 {

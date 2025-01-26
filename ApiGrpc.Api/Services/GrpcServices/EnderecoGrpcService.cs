@@ -1,6 +1,7 @@
 ﻿using ApiGrpc.Application.Commands.Address;
 using ApiGrpc.Application.DTOs.Address;
 using ApiGrpc.Application.Queries.Address;
+using ApiGrpc.Domain.Exceptions;
 using Grpc.Core;
 using MediatR;
 
@@ -9,30 +10,57 @@ namespace ApiGrpc.Api.Services.GrpcServices
     public class EnderecoGrpcService : EnderecoGrpc.EnderecoGrpcBase
     {
         private readonly IMediator _mediator;
+        private readonly ILogger<EnderecoGrpcService> _logger;
 
-        public EnderecoGrpcService(IMediator mediator)
+        public EnderecoGrpcService(IMediator mediator, ILogger<EnderecoGrpcService> logger)
         {
-            _mediator = mediator;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public override async Task<EnderecoResponse> CreateEndereco(CreateEnderecoRequest request, ServerCallContext context)
         {
-            var command = new AddEnderecoCommand(
-                request.Logradouro,
-                request.Numero,
-                request.Complemento,
-                request.Bairro,
-                request.Cidade,
-                request.Estado,
-                request.Cep,
-                request.IsEstabelecimento,
-                Guid.Parse(request.UsuarioId),
-                request.Latitude,
-                request.Longitude,
-                request.RaioEntregaKm);
+            try
+            {
+                if (!Guid.TryParse(request.UsuarioId, out var usuarioId))
+                    throw new RpcException(new Status(StatusCode.InvalidArgument, "UsuarioId inválido"));
 
-            var result = await _mediator.Send(command);
-            return MapToResponse(result);
+                Guid? estabelecimentoId = null;
+                if (!string.IsNullOrEmpty(request.EstabelecimentoId))
+                {
+                    if (!Guid.TryParse(request.EstabelecimentoId, out var parsedEstabelecimentoId))
+                        throw new RpcException(new Status(StatusCode.InvalidArgument, "EstabelecimentoId inválido"));
+                    estabelecimentoId = parsedEstabelecimentoId;
+                }
+
+                var command = new AddEnderecoCommand(
+                    request.Logradouro,
+                    request.Numero,
+                    request.Complemento,
+                    request.Bairro,
+                    request.Cidade,
+                    request.Estado,
+                    request.Cep,
+                    request.IsEstabelecimento,
+                    usuarioId,
+                    estabelecimentoId,
+                    request.Latitude,
+                    request.Longitude,
+                    request.RaioEntregaKm);
+
+                var result = await _mediator.Send(command);
+                return MapToResponse(result);
+            }
+            catch (DomainException ex)
+            {
+                _logger.LogError(ex, "Erro de domínio ao criar endereço");
+                throw new RpcException(new Status(StatusCode.InvalidArgument, ex.Message));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro interno ao criar endereço");
+                throw new RpcException(new Status(StatusCode.Internal, "Erro interno ao processar a requisição"));
+            }
         }
 
         public override async Task<EnderecoResponse> UpdateEndereco(UpdateEnderecoRequest request, ServerCallContext context)
@@ -83,7 +111,6 @@ namespace ApiGrpc.Api.Services.GrpcServices
                 Estado = dto.Estado,
                 Cep = dto.Cep,
                 IsEstabelecimento = dto.IsEstabelecimento,
-                UsuarioId = dto.UsuarioId.ToString(),
                 Latitude = dto.Latitude,
                 Longitude = dto.Longitude,
                 Status = dto.Status

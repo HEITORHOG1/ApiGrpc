@@ -1,7 +1,6 @@
 ﻿using ApiGrpc.Api.Services.GrpcServices;
 using ApiGrpc.Application.Commands.Auth;
 using ApiGrpc.Application.DTOs.Auth;
-using ApiGrpc.Application.DTOs.Login;
 using ApiGrpc.Application.Queries.Auth;
 using ApiGrpc.Domain.Entities;
 using MediatR;
@@ -16,7 +15,7 @@ namespace ApiGrpc.Api.EndPoints
         {
             app.MapGrpcService<AuthGrpcService>();
 
-            app.MapPost("/api/auth/register", async (RegisterDto dto, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager) =>
+            app.MapPost("/api/auth/register", async (RegisterDto dto, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<Guid>> roleManager) =>
             {
                 var user = new ApplicationUser
                 {
@@ -28,7 +27,7 @@ namespace ApiGrpc.Api.EndPoints
                 };
 
                 var result = await userManager.CreateAsync(user, dto.Password);
-                if (!new[] { "Admin", "Cliente", "Gerente" }.Contains(dto.Role))
+                if (!new[] { "Admin", "Cliente", "Gerente", "Proprietario" }.Contains(dto.Role))
                 {
                     return Results.BadRequest(new { Error = "Role inválido" });
                 }
@@ -81,7 +80,7 @@ namespace ApiGrpc.Api.EndPoints
             .WithTags("Auth")
             .RequireAuthorization(policy => policy.RequireRole("Admin", "Gerente"));
 
-            app.MapGet("/api/auth/roles", async (RoleManager<IdentityRole> roleManager) =>
+            app.MapGet("/api/auth/roles", async (RoleManager<IdentityRole<Guid>> roleManager) =>
             {
                 var roles = await roleManager.Roles.ToListAsync();
                 return Results.Ok(roles);
@@ -91,7 +90,7 @@ namespace ApiGrpc.Api.EndPoints
             .WithName("GetAllRoles")
             .WithTags("Auth");
 
-            app.MapPut("/api/auth/users/{id}", async (Guid id, UpdateUserDto dto, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager) =>
+            app.MapPut("/api/auth/users/{id}", async (Guid id, UpdateUserDto dto, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<Guid>> roleManager) =>
             {
                 var user = await userManager.FindByIdAsync(id.ToString());
                 if (user == null)

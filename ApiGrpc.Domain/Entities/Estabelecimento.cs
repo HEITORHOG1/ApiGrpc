@@ -5,6 +5,7 @@ namespace ApiGrpc.Domain.Entities
 {
     public class Estabelecimento : Entity
     {
+        // Propriedades básicas
         public Guid UsuarioId { get; private set; }
         public string RazaoSocial { get; private set; }
         public string NomeFantasia { get; private set; }
@@ -18,14 +19,22 @@ namespace ApiGrpc.Domain.Entities
         public string? InscricaoMunicipal { get; private set; }
         public string? Website { get; private set; }
         public string? RedeSocial { get; private set; }
+
+        // Chaves estrangeiras
         public Guid CategoriaId { get; private set; }
+
+        public Guid EnderecoId { get; private set; }
+
+        // Propriedades de navegação
         public virtual Categoria Categoria { get; private set; }
+
         public virtual Endereco Endereco { get; private set; }
-        public virtual HorarioFuncionamento HorarioFuncionamento { get; private set; }
+        public virtual ICollection<HorarioFuncionamento> HorariosFuncionamento { get; private set; } = new List<HorarioFuncionamento>();
 
         protected Estabelecimento()
         { } // EF Constructor
 
+        // Construtor
         public Estabelecimento(
             Guid usuarioId,
             string razaoSocial,
@@ -39,15 +48,15 @@ namespace ApiGrpc.Domain.Entities
             string inscricaoMunicipal,
             string website,
             string redeSocial,
-            Guid categoriaId)
+            Guid categoriaId,
+            Endereco endereco)
         {
-            if (string.IsNullOrWhiteSpace(cnpj))
-                throw new DomainException("CNPJ é obrigatório");
-            if (!ValidarCNPJ(cnpj))
-                throw new DomainException("CNPJ inválido");
-            if (string.IsNullOrWhiteSpace(email))
-                throw new DomainException("E-mail é obrigatório");
+            // Validações
+            if (string.IsNullOrWhiteSpace(cnpj)) throw new DomainException("CNPJ é obrigatório");
+            if (!ValidarCNPJ(cnpj)) throw new DomainException("CNPJ inválido");
+            if (string.IsNullOrWhiteSpace(email)) throw new DomainException("E-mail é obrigatório");
 
+            // Atribuições
             UsuarioId = usuarioId;
             RazaoSocial = razaoSocial;
             NomeFantasia = nomeFantasia;
@@ -62,6 +71,8 @@ namespace ApiGrpc.Domain.Entities
             Website = website;
             RedeSocial = redeSocial;
             CategoriaId = categoriaId;
+            Endereco = endereco;
+            EnderecoId = endereco.Id;
         }
 
         public void Update(
@@ -92,6 +103,11 @@ namespace ApiGrpc.Domain.Entities
             CategoriaId = categoriaId;
         }
 
+        // Métodos para adicionar horários
+        public void AdicionarHorario(HorarioFuncionamento horario)
+        {
+            HorariosFuncionamento.Add(horario);
+        }
         private static bool ValidarCNPJ(string cnpj)
         {
             cnpj = cnpj.Replace(".", "").Replace("-", "").Replace("/", "");

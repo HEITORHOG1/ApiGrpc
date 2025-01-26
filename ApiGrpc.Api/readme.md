@@ -87,6 +87,9 @@ ProductService.Tests/
 dotnet restore
 dotnet ef database update
 dotnet run --project ProductService.Api
+
+dotnet ef migrations add AddNuloEndereço --project ApiGrpc.Infrastructure --startup-project ApiGrpc.Api
+dotnet ef database update --project ApiGrpc.Infrastructure --startup-project ApiGrpc.Api
 ```
 
 ## Endpoints

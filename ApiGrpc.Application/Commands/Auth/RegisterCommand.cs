@@ -1,4 +1,4 @@
-﻿using ApiGrpc.Application.DTOs.Login;
+﻿using ApiGrpc.Application.DTOs.Auth;
 using ApiGrpc.Application.Validations.Auth;
 using ApiGrpc.Domain.Entities;
 using ApiGrpc.Domain.Exceptions;
@@ -21,14 +21,14 @@ namespace ApiGrpc.Application.Commands.Auth
     public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AuthResponseDto>
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
         private readonly TokenService _tokenService;
         private readonly ILogger<RegisterCommandHandler> _logger;
         private readonly RegisterCommandValidator _validator;
 
         public RegisterCommandHandler(
             UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager,
+            RoleManager<IdentityRole<Guid>> roleManager,
             TokenService tokenService,
             ILogger<RegisterCommandHandler> logger,
             RegisterCommandValidator validator)
@@ -91,7 +91,7 @@ namespace ApiGrpc.Application.Commands.Auth
                 user.FirstName,
                 user.LastName,
                 request.Role,
-                user.Id);
+                user.Id.ToString());
         }
     }
 }

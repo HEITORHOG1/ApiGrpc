@@ -56,7 +56,7 @@ namespace ApiGrpc.Api.Services.GrpcServices
             return new DeleteCategoriaResponse
             {
                 Success = result,
-                Id = request.Id 
+                Id = request.Id
             };
         }
 

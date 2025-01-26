@@ -2,19 +2,21 @@
 
 #nullable disable
 
-namespace ApiGrpc.Api.Migrations
+namespace ApiGrpc.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class sqlitelocal_migration_791 : Migration
+    public partial class AddNuloEndereço : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+
         }
     }
 }

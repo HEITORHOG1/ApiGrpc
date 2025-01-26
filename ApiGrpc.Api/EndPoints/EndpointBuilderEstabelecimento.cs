@@ -3,6 +3,10 @@ using ApiGrpc.Application.Commands.Establishment;
 using ApiGrpc.Application.DTOs.Establishment;
 using ApiGrpc.Application.Queries.Establishment;
 using MediatR;
+using Microsoft.AspNetCore.Http;
+using Serilog;
+using System.Net.Http;
+using System.Security.Claims;
 
 namespace ApiGrpc.Api.EndPoints
 {
@@ -13,11 +17,22 @@ namespace ApiGrpc.Api.EndPoints
             app.MapGrpcService<EstabelecimentoGrpcService>();
 
             // POST
-            app.MapPost("/api/estabelecimentos", async (CreateEstabelecimentoDto dto, IMediator mediator) =>
+            app.MapPost("/api/estabelecimentos", async (
+                                                        CreateEstabelecimentoDto dto,
+                                                        IMediator mediator,
+                                                        HttpContext httpContext
+                                                    ) =>
             {
-                // Monta o comando
+                var userIdClaim = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim))
+                {
+                    return Results.Unauthorized();
+                }
+
+                var userId = Guid.Parse(userIdClaim);
+
                 var command = new AddEstabelecimentoCommand(
-                    dto.UsuarioId,
+                    userId,
                     dto.RazaoSocial,
                     dto.NomeFantasia,
                     dto.CNPJ,
@@ -34,15 +49,13 @@ namespace ApiGrpc.Api.EndPoints
 
                 var result = await mediator.Send(command);
 
-                // RETORNO 201 Created
                 return Results.Created($"/api/estabelecimentos/{result.Id}", result);
-
             })
             .Produces<EstabelecimentoDto>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)
             .WithName("CreateEstabelecimento")
             .WithTags("Estabelecimentos")
-            .RequireAuthorization(policy => policy.RequireRole("Admin", "Gerente"));
+            .RequireAuthorization(policy => policy.RequireRole("Admin", "Gerente", "Proprietario"));
 
             // GET
             app.MapGet("/api/estabelecimentos/{id}", async (Guid id, IMediator mediator) =>
@@ -53,7 +66,6 @@ namespace ApiGrpc.Api.EndPoints
                 return estabelecimento is null
                     ? Results.NotFound()
                     : Results.Ok(estabelecimento);
-
             })
             .WithName("GetEstabelecimento")
             .WithTags("Estabelecimentos");
@@ -66,11 +78,10 @@ namespace ApiGrpc.Api.EndPoints
 
                 var result = await mediator.Send(command);
                 return Results.Ok(result);
-
             })
             .WithName("UpdateEstabelecimento")
             .WithTags("Estabelecimentos")
-            .RequireAuthorization(policy => policy.RequireRole("Admin", "Gerente"));
+            .RequireAuthorization(policy => policy.RequireRole("Admin", "Gerente", "Proprietario"));
 
             // PUT - Status
             app.MapPut("/api/estabelecimentos/{id}/status", async (Guid id, bool status, IMediator mediator) =>
@@ -78,11 +89,10 @@ namespace ApiGrpc.Api.EndPoints
                 var command = new UpdateEstabelecimentoStatusCommand(id, status);
                 await mediator.Send(command);
                 return Results.NoContent();
-
             })
             .WithName("UpdateEstabelecimentoStatus")
             .WithTags("Estabelecimentos")
-            .RequireAuthorization(policy => policy.RequireRole("Admin", "Gerente"));
+            .RequireAuthorization(policy => policy.RequireRole("Admin"));
 
             // get all estabelecimentos
             app.MapGet("/api/estabelecimentos", async (IMediator mediator) =>
@@ -98,5 +108,4 @@ namespace ApiGrpc.Api.EndPoints
             return app;
         }
     }
-
 }

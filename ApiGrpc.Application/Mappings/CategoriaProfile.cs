@@ -14,7 +14,7 @@ namespace ApiGrpc.Application.Mappings
 
             // Mapeamento de CreateCategoriaDto para Categoria
             CreateMap<CategoriaDto, Categoria>()
-                .ConstructUsing(dto => new Categoria( dto.Nome, dto.Descricao)).ReverseMap();
+                .ConstructUsing(dto => new Categoria(dto.Nome, dto.Descricao)).ReverseMap();
         }
     }
 }

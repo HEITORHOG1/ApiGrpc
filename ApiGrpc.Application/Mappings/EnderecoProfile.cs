@@ -7,22 +7,25 @@ namespace ApiGrpc.Application.Mappings
     {
         public EnderecoProfile()
         {
-            CreateMap<Endereco, EnderecoDto>();
+            CreateMap<Endereco, EnderecoDto>()
+                .ForMember(dest => dest.RaioEntregaKm,
+                    opt => opt.MapFrom(src => src.IsEstabelecimento ? src.RaioEntregaKm : null));
 
             CreateMap<CreateEnderecoDto, Endereco>()
-                .ConstructUsing(dto => new Endereco(
-                    dto.Logradouro,
-                    dto.Numero,
-                    dto.Complemento,
-                    dto.Bairro,
-                    dto.Cidade,
-                    dto.Estado,
-                    dto.Cep,
-                    dto.IsEstabelecimento,
-                    dto.UsuarioId,
-                    dto.Latitude,
-                    dto.Longitude,
-                    dto.RaioEntregaKm));
+                .ConstructUsing((src, ctx) => new Endereco(
+                    src.Logradouro,
+                    src.Numero,
+                    src.Complemento,
+                    src.Bairro,
+                    src.Cidade,
+                    src.Estado,
+                    src.Cep,
+                    src.IsEstabelecimento,
+                    src.UsuarioId,
+                    src.EstabelecimentoId,
+                    src.Latitude,
+                    src.Longitude,
+                    src.RaioEntregaKm));
         }
     }
 }

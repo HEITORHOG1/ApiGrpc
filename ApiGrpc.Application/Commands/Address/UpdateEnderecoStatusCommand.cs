@@ -5,7 +5,17 @@ using MediatR;
 
 namespace ApiGrpc.Application.Commands.Address
 {
-    public record UpdateEnderecoStatusCommand(Guid Id, bool Status) : IRequest;
+    public class UpdateEnderecoStatusCommand : IRequest
+    {
+        public Guid Id { get; }
+        public bool Status { get; }
+
+        public UpdateEnderecoStatusCommand(Guid id, bool status)
+        {
+            Id = id;
+            Status = status;
+        }
+    }
 
     public class UpdateEnderecoStatusCommandHandler : IRequestHandler<UpdateEnderecoStatusCommand>
     {
@@ -21,7 +31,7 @@ namespace ApiGrpc.Application.Commands.Address
         public async Task Handle(UpdateEnderecoStatusCommand request, CancellationToken cancellationToken)
         {
             var endereco = await _repository.GetByIdAsync(request.Id)
-                ?? throw new NotFoundException("Endereço não encontrado");
+                ?? throw new NotFoundException($"Endereço {request.Id} não encontrado");
 
             endereco.UpdateStatus(request.Status);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

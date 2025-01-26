@@ -1,6 +1,7 @@
+using ApiGrpc.Application.Commands.Customers.AddCustomer;
 using FluentValidation;
 
-namespace ApiGrpc.Application.Commands.Customers.AddCustomer
+namespace ApiGrpc.Application.Validations.Customers
 {
     public class AddCustomerCommandValidator : AbstractValidator<AddCustomerCommand>
     {

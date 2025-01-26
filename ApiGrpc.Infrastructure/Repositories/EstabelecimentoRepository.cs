@@ -18,7 +18,7 @@ namespace ApiGrpc.Infrastructure.Repositories
         {
             return await _context.Estabelecimentos
                 .Include(e => e.Endereco)
-                .Include(e => e.HorarioFuncionamento)
+                .Include(e => e.HorariosFuncionamento)
                 .Include(e => e.Categoria)
                 .ToListAsync();
         }
@@ -26,7 +26,7 @@ namespace ApiGrpc.Infrastructure.Repositories
         {
             return await _context.Estabelecimentos
                 .Include(e => e.Endereco)
-                .Include(e => e.HorarioFuncionamento)
+                .Include(e => e.HorariosFuncionamento)
                 .Include(e => e.Categoria)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
@@ -36,7 +36,7 @@ namespace ApiGrpc.Infrastructure.Repositories
                 .Where(e => e.UsuarioId == usuarioId)
                 .Include(e => e.Endereco) // Adicionado
                 .Include(e => e.Categoria) // Adicionado
-                .Include(e => e.HorarioFuncionamento) // Adicionado
+                .Include(e => e.HorariosFuncionamento) // Adicionado
                 .ToListAsync();
         }
 

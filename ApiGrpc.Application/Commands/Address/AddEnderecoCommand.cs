@@ -7,18 +7,20 @@ using MediatR;
 namespace ApiGrpc.Application.Commands.Address
 {
     public record AddEnderecoCommand(
-                                       string Logradouro,
-                                       string Numero,
-                                       string Complemento,
-                                       string Bairro,
-                                       string Cidade,
-                                       string Estado,
-                                       string Cep,
-                                       bool IsEstabelecimento,
-                                       Guid UsuarioId,
-                                       double Latitude,
-                                       double Longitude,
-                                       double? RaioEntregaKm) : IRequest<EnderecoDto>;
+        string Logradouro,
+        string Numero,
+        string Complemento,
+        string Bairro,
+        string Cidade,
+        string Estado,
+        string Cep,
+        bool IsEstabelecimento,
+        Guid? UsuarioId, 
+        Guid? EstabelecimentoId,
+        double Latitude,
+        double Longitude,
+        double? RaioEntregaKm
+    ) : IRequest<EnderecoDto>;
 
     public class AddEnderecoCommandHandler : IRequestHandler<AddEnderecoCommand, EnderecoDto>
     {
@@ -48,6 +50,7 @@ namespace ApiGrpc.Application.Commands.Address
                 request.Cep,
                 request.IsEstabelecimento,
                 request.UsuarioId,
+                request.EstabelecimentoId,
                 request.Latitude,
                 request.Longitude,
                 request.RaioEntregaKm);

@@ -29,6 +29,7 @@ builder.Services
         options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
         options.AddPolicy("RequireManagerRole", policy => policy.RequireRole("Gerente"));
         options.AddPolicy("RequireCustomerRole", policy => policy.RequireRole("Cliente"));
+        options.AddPolicy("RequireOwnerRole", policy => policy.RequireRole("Proprietario"));
     })
     .AddGrpc();
 
@@ -68,16 +69,15 @@ app.Run();
 
 async Task CreateRoles(IServiceProvider serviceProvider)
 {
-    var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    string[] roleNames = { "Admin", "Cliente", "Gerente" };
-    IdentityResult roleResult;
+    var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+    string[] roleNames = { "Admin", "Cliente", "Gerente", "Proprietario" };
 
     foreach (var roleName in roleNames)
     {
         var roleExist = await roleManager.RoleExistsAsync(roleName);
         if (!roleExist)
         {
-            roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
+            await roleManager.CreateAsync(new IdentityRole<Guid>(roleName));
         }
     }
 }

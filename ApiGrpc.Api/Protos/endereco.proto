@@ -1,83 +1,84 @@
 ﻿syntax = "proto3";
-
 option csharp_namespace = "ApiGrpc.Api";
-
 package endereco;
 
 service EnderecoGrpc {
- rpc CreateEndereco (CreateEnderecoRequest) returns (EnderecoResponse);
- rpc UpdateEndereco (UpdateEnderecoRequest) returns (EnderecoResponse);
- rpc GetEndereco (GetEnderecoRequest) returns (EnderecoResponse);
- rpc GetEnderecosByUsuario (GetEnderecosByUsuarioRequest) returns (EnderecoListResponse);
- rpc UpdateEnderecoStatus (UpdateEnderecoStatusRequest) returns (Empty);
- rpc UpdateEnderecoRaioEntrega (UpdateEnderecoRaioEntregaRequest) returns (Empty);
+    rpc CreateEndereco (CreateEnderecoRequest) returns (EnderecoResponse);
+    rpc UpdateEndereco (UpdateEnderecoRequest) returns (EnderecoResponse);
+    rpc GetEndereco (GetEnderecoRequest) returns (EnderecoResponse);
+    rpc GetEnderecosByUsuario (GetEnderecosByUsuarioRequest) returns (EnderecoListResponse);
+    rpc UpdateEnderecoStatus (UpdateEnderecoStatusRequest) returns (Empty);
+    rpc UpdateEnderecoRaioEntrega (UpdateEnderecoRaioEntregaRequest) returns (Empty);
 }
 
 message CreateEnderecoRequest {
- string logradouro = 1;
- string numero = 2;
- string complemento = 3;
- string bairro = 4;
- string cidade = 5;
- string estado = 6;
- string cep = 7;
- bool is_estabelecimento = 8;
- string usuario_id = 9;
- double latitude = 10;
- double longitude = 11;
- optional double raio_entrega_km = 12;
+    string logradouro = 1;
+    string numero = 2;
+    string complemento = 3;
+    string bairro = 4;
+    string cidade = 5;
+    string estado = 6;
+    string cep = 7;
+    bool is_estabelecimento = 8;
+    string usuario_id = 9;
+    string estabelecimento_id = 10;
+    double latitude = 11;
+    double longitude = 12;
+    optional double raio_entrega_km = 13;
 }
 
+// Demais mensagens permanecem iguais
 message UpdateEnderecoRequest {
- string id = 1;
- string logradouro = 2;
- string numero = 3;
- string complemento = 4;
- string bairro = 5;
- string cidade = 6;
- string estado = 7;
- string cep = 8;
- double latitude = 9;
- double longitude = 10;
+    string id = 1;
+    string logradouro = 2;
+    string numero = 3;
+    string complemento = 4;
+    string bairro = 5;
+    string cidade = 6;
+    string estado = 7;
+    string cep = 8;
+    double latitude = 9;
+    double longitude = 10;
 }
 
 message GetEnderecoRequest {
- string id = 1;
+    string id = 1;
 }
 
 message GetEnderecosByUsuarioRequest {
- string usuario_id = 1;
+    string usuario_id = 1;
 }
 
 message UpdateEnderecoStatusRequest {
- string id = 1;
- bool status = 2;
+    string id = 1;
+    bool status = 2;
 }
 
 message UpdateEnderecoRaioEntregaRequest {
- string id = 1;
- double raio_entrega_km = 2;
+    string id = 1;
+    double raio_entrega_km = 2;
 }
 
 message EnderecoResponse {
- string id = 1;
- string logradouro = 2;
- string numero = 3;
- string complemento = 4;
- string bairro = 5;
- string cidade = 6;
- string estado = 7;
- string cep = 8;
- bool is_estabelecimento = 9;
- string usuario_id = 10;
- double latitude = 11;
- double longitude = 12;
- optional double raio_entrega_km = 13;
- bool status = 14;
+    string id = 1;
+    string logradouro = 2;
+    string numero = 3;
+    string complemento = 4;
+    string bairro = 5;
+    string cidade = 6;
+    string estado = 7;
+    string cep = 8;
+    bool is_estabelecimento = 9;
+    string usuario_id = 10;
+    string estabelecimento_id = 11;
+    double latitude = 12;
+    double longitude = 13;
+    optional double raio_entrega_km = 14;
+    bool status = 15;
 }
 
 message EnderecoListResponse {
- repeated EnderecoResponse enderecos = 1;
+    repeated EnderecoResponse enderecos = 1;
 }
 
 message Empty {}

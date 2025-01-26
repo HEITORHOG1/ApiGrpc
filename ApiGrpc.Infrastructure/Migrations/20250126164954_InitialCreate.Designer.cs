@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ApiGrpc.Api.Migrations
+namespace ApiGrpc.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250125230645_sqlite.local_migration_922")]
-    partial class sqlitelocal_migration_922
+    [Migration("20250126164954_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,7 +22,8 @@ namespace ApiGrpc.Api.Migrations
 
             modelBuilder.Entity("ApiGrpc.Domain.Entities.ApplicationUser", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("AccessFailedCount")
@@ -163,6 +164,9 @@ namespace ApiGrpc.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("ApplicationUserId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("CNPJ")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -181,10 +185,7 @@ namespace ApiGrpc.Api.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("EnderecoId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("HorarioFuncionamentoId")
+                    b.Property<Guid>("EnderecoId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("InscricaoEstadual")
@@ -225,11 +226,9 @@ namespace ApiGrpc.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.HasIndex("CategoriaId");
-
-                    b.HasIndex("EnderecoId");
-
-                    b.HasIndex("HorarioFuncionamentoId");
 
                     b.ToTable("Estabelecimentos");
                 });
@@ -246,8 +245,8 @@ namespace ApiGrpc.Api.Migrations
                     b.Property<int>("DiaSemana")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("EstabelecimentoId")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("EstabelecimentoId")
+                        .HasColumnType("TEXT");
 
                     b.Property<TimeSpan>("HoraAbertura")
                         .HasColumnType("TEXT");
@@ -259,6 +258,8 @@ namespace ApiGrpc.Api.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EstabelecimentoId");
 
                     b.ToTable("HorariosFuncionamentos");
                 });
@@ -286,6 +287,9 @@ namespace ApiGrpc.Api.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("EstabelecimentoId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Estado")
@@ -318,17 +322,23 @@ namespace ApiGrpc.Api.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("UsuarioId")
+                    b.Property<Guid?>("UsuarioId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EstabelecimentoId")
+                        .IsUnique();
+
+                    b.HasIndex("UsuarioId");
+
                     b.ToTable("Enderecos");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -352,7 +362,7 @@ namespace ApiGrpc.Api.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -364,8 +374,7 @@ namespace ApiGrpc.Api.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
+                    b.Property<Guid>("RoleId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -375,7 +384,7 @@ namespace ApiGrpc.Api.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -387,8 +396,7 @@ namespace ApiGrpc.Api.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
+                    b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -398,7 +406,7 @@ namespace ApiGrpc.Api.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("TEXT");
@@ -409,8 +417,7 @@ namespace ApiGrpc.Api.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
+                    b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("LoginProvider", "ProviderKey");
@@ -420,12 +427,12 @@ namespace ApiGrpc.Api.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("RoleId")
+                    b.Property<Guid>("RoleId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("UserId", "RoleId");
@@ -435,9 +442,9 @@ namespace ApiGrpc.Api.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LoginProvider")
@@ -456,37 +463,55 @@ namespace ApiGrpc.Api.Migrations
 
             modelBuilder.Entity("ApiGrpc.Domain.Entities.Estabelecimento", b =>
                 {
+                    b.HasOne("ApiGrpc.Domain.Entities.ApplicationUser", null)
+                        .WithMany("Estabelecimentos")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("ApiGrpc.Domain.Entities.Categoria", "Categoria")
                         .WithMany()
                         .HasForeignKey("CategoriaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Endereco", "Endereco")
-                        .WithMany()
-                        .HasForeignKey("EnderecoId");
-
-                    b.HasOne("ApiGrpc.Domain.Entities.HorarioFuncionamento", "HorarioFuncionamento")
-                        .WithMany()
-                        .HasForeignKey("HorarioFuncionamentoId");
-
                     b.Navigation("Categoria");
-
-                    b.Navigation("Endereco");
-
-                    b.Navigation("HorarioFuncionamento");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("ApiGrpc.Domain.Entities.HorarioFuncionamento", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("ApiGrpc.Domain.Entities.Estabelecimento", "Estabelecimento")
+                        .WithMany("HorariosFuncionamento")
+                        .HasForeignKey("EstabelecimentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Estabelecimento");
+                });
+
+            modelBuilder.Entity("Endereco", b =>
+                {
+                    b.HasOne("ApiGrpc.Domain.Entities.Estabelecimento", "Estabelecimento")
+                        .WithOne("Endereco")
+                        .HasForeignKey("Endereco", "EstabelecimentoId");
+
+                    b.HasOne("ApiGrpc.Domain.Entities.ApplicationUser", "Usuario")
+                        .WithMany("Enderecos")
+                        .HasForeignKey("UsuarioId");
+
+                    b.Navigation("Estabelecimento");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.HasOne("ApiGrpc.Domain.Entities.ApplicationUser", null)
                         .WithMany()
@@ -495,7 +520,7 @@ namespace ApiGrpc.Api.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.HasOne("ApiGrpc.Domain.Entities.ApplicationUser", null)
                         .WithMany()
@@ -504,9 +529,9 @@ namespace ApiGrpc.Api.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -519,13 +544,28 @@ namespace ApiGrpc.Api.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.HasOne("ApiGrpc.Domain.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ApiGrpc.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("Enderecos");
+
+                    b.Navigation("Estabelecimentos");
+                });
+
+            modelBuilder.Entity("ApiGrpc.Domain.Entities.Estabelecimento", b =>
+                {
+                    b.Navigation("Endereco")
+                        .IsRequired();
+
+                    b.Navigation("HorariosFuncionamento");
                 });
 #pragma warning restore 612, 618
         }

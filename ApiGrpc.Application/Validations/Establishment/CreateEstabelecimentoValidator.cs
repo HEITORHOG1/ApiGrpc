@@ -7,7 +7,6 @@ namespace ApiGrpc.Application.Validations.Establishment
     {
         public CreateEstabelecimentoValidator()
         {
-            RuleFor(x => x.UsuarioId).NotEmpty();
             RuleFor(x => x.RazaoSocial).NotEmpty().MaximumLength(100);
             RuleFor(x => x.NomeFantasia).NotEmpty().MaximumLength(100);
             RuleFor(x => x.Telefone).NotEmpty().Matches(@"^\d{10,11}$");

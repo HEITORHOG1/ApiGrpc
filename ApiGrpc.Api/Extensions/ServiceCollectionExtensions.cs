@@ -10,6 +10,7 @@ using ApiGrpc.Infrastructure.Repositories.Base;
 using ApiGrpc.Infrastructure.Services;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApiGrpc.Api.Extensions
@@ -41,7 +42,7 @@ namespace ApiGrpc.Api.Extensions
 
             services.AddValidatorsFromAssembly(typeof(LoginCommandValidator).Assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-
+            
             services.AddDistributedMemoryCache();
 
             services.AddMemoryCache();

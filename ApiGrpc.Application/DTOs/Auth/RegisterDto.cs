@@ -1,4 +1,4 @@
-﻿namespace ApiGrpc.Application.DTOs.Login
+﻿namespace ApiGrpc.Application.DTOs.Auth
 {
     public record RegisterDto(
      string Email,

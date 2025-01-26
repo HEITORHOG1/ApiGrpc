@@ -1,6 +1,7 @@
+using ApiGrpc.Application.Commands.Customers.UpdateCustomer;
 using FluentValidation;
 
-namespace ApiGrpc.Application.Commands.Customers.UpdateCustomer
+namespace ApiGrpc.Application.Validations.Customers
 {
     public class UpdateCustomerCommandValidator : AbstractValidator<UpdateCustomerCommand>
     {
